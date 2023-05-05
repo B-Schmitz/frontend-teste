@@ -7,8 +7,18 @@ import {
   Logo,
   Search,
 } from "@/components";
+import { useSearch } from "@/context/search";
+import { useEffect, useState } from "react";
 
 export function Header() {
+
+  const { setValue } = useSearch();
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    setValue(search);
+  }, [search, setValue]);
+
   return (
     <header className="flex w-full gap-4 h-20 items-center">
       <div className="flex gap-4 sm:gap-32 justify-between">
@@ -16,7 +26,7 @@ export function Header() {
           <Logo />
           <Divisor />
           <SmallButton icon="fa-bars" />
-          <Search />
+          <Search value={search} onChange={setSearch} />
         </div>
         <div className="flex gap-4">
           <IconButton icon="fa-plus" bg={Button.BgColor.orange}>
