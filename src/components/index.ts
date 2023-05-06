@@ -11,3 +11,4 @@ export { Post } from "./post";
 export { Footer } from "./footer";
 export { Content } from "./content";
 export { Select } from "./select";
+export { Loading } from "./loading";

@@ -5,6 +5,7 @@ import {
   Footer,
   Header,
   Icon,
+  Loading,
   Post,
   Select,
   SmallButton,
@@ -18,16 +19,18 @@ export default function Home() {
   const [posts, setPosts] = useState<API.Post[]>([]);
   const [sort, setSort] = useState("upvotes");
   const [sortAsc, setSortAsc] = useState(true);
+  const [loading, setLoading] = useState(false);
   const { search } = useSearch();
 
   useEffect(() => {
     loadPosts().catch();
   }, []);
 
-  if (!posts) return;
-
   async function loadPosts() {
-    return await api.posts_get().then(setPosts);
+    setLoading(true);
+    const res = await api.posts_get();
+    setPosts(res);
+    setLoading(false);
   }
 
   function filteredPosts(): API.Post[] {
@@ -94,6 +97,18 @@ export default function Home() {
     setSortAsc((state) => !state);
   }
 
+  function renderPosts() {
+    return (
+      <div className="flex flex-col gap-10 py-8">
+        {filteredPosts()
+          .sort(comparePostsBy(sort))
+          .map((post, i) => (
+            <Post key={i} post={post} />
+          ))}
+      </div>
+    );
+  }
+
   return (
     <>
       <Content>
@@ -109,15 +124,7 @@ export default function Home() {
           ></SmallButton>
         </div>
       </Content>
-      <Content>
-        <div className="flex flex-col gap-10 py-8">
-          {filteredPosts()
-            .sort(comparePostsBy(sort))
-            .map((post, i) => (
-              <Post key={i} post={post} />
-            ))}
-        </div>
-      </Content>
+      <Content>{loading ? <Loading /> : renderPosts()}</Content>
       <Content>
         <Button
           className="flex w-full gap-4 h-16 justify-center items-center text-orange-400 bg-gray-100 hover:bg-gray-200"
