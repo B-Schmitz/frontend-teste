@@ -1,10 +1,5 @@
 export declare module API {
-  const enum Category {
-    product_design = "Product Design",
-    discussion = "Opinion",
-    ux_ui = "UX Theory",
-    case_study = "Case Study",
-  }
+  type Category = "product_design" | "discussion" | "ux_ui" | "case_study";
 
   interface Meta {
     author: string;

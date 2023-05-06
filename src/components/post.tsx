@@ -1,10 +1,30 @@
 import { API } from "@/services/api/types";
 import { Icon } from "./icon";
-import Image from "next/image"
+import Image from "next/image";
 import { fmt, time } from "@/services";
- 
+
 interface Props {
   post: API.Post;
+}
+
+function getCategoryName(category: API.Category) {
+  const categories = new Map<API.Category, string>([
+    ["product_design", "Product Design"],
+    ["discussion", "Opinion"],
+    ["ux_ui", "UX Theory"],
+    ["case_study", "Case Study"],
+  ]);
+  return categories.get(category);
+}
+
+function getCategoryColor(category: API.Category) {
+  const categories = new Map<API.Category, string>([
+    ["product_design", "bg-green-500"],
+    ["discussion", "bg-blue-500"],
+    ["ux_ui", "bg-cyan-500"],
+    ["case_study", "bg-orange-100"],
+  ]);
+  return categories.get(category);
 }
 
 export function Post({ post }: Props) {
@@ -19,24 +39,42 @@ export function Post({ post }: Props) {
         </div>
       </div>
       <div className="flex flex-col">
-        <small className="text-gray-400 opacity-60 font-bold uppercase">
+        <h3 className="text-gray-400 opacity-60 text-xs uppercase">
           {post.meta.url}
-        </small>
+        </h3>
         <h1>{post.meta.title}</h1>
-        <div className="flex gap-2 items-center">
-  <span className="px-2 py-1 text-sm font-semibold text-white bg-blue-500 rounded-full">Badge</span>
-  <div className="w-8 h-8 rounded-full overflow-hidden">
-     <Image width={25} height={25} className="object-cover w-full h-full" src="https://cdn-icons-png.flaticon.com/512/4792/4792929.png" alt="Profile Image"/>
-  </div>
-  <div className="text-sm font-medium text-gray-900">{post.meta.author}</div>
-  <div className="text-sm text-gray-500">{fmt.from(time.tms2data(post.created_at))}</div>
-  <div className="text-gray-500 text-3xl">&middot;</div>
-  <div className="flex items-center gap-1">
-   <Icon name="fa-comment" color={Icon.Color.gray}/>
-    <div className="text-sm text-gray-500">{post.comments} Comments</div>
-  </div>
-</div>
-
+        <div className="flex gap-1 items-center">
+          <small
+            className={`px-2 py-1 truncate text-xs font-semibold text-white ${getCategoryColor(
+              post.category
+            )}  rounded-full`}
+          >
+            {getCategoryName(post.category)}
+          </small>
+          <div className="w-5 h-5 rounded-sm overflow-hidden">
+            <Image
+              width={32}
+              height={32}
+              className="object-cover w-full h-full"
+              src="https://cdn-icons-png.flaticon.com/512/4792/4792929.png"
+              alt="Profile Image"
+            />
+          </div>
+          <h3 className="truncate flex-nowrap text-sm font-medium text-orange-400 underline">
+            {post.meta.author}
+          </h3>
+          <small className="truncate text-sm text-gray-500">
+            {fmt.from(time.tms2data(post.created_at))}
+          </small>
+          <div className="text-gray-500 text-3xl">&middot;</div>
+          <div className="flex items-center gap-1">
+            <Icon name="fa-comment" color={Icon.Color.orange} />
+            <small className="truncate text-xs text-orange-400 underline">
+              {post.comments} Comments
+            </small>
+            <small className="text-xs text-orange-400 underline">Edit</small>
+          </div>
+        </div>
       </div>
     </div>
   );

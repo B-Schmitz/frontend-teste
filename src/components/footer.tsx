@@ -6,7 +6,7 @@ export function Footer() {
   return (
     <footer className="h-20 flex items-center w-full gap-4">
       <Logo />
-      <div className="flex flex-col">
+      <div className="hidden sm:flex flex-col">
         <h5>The Ux Library</h5>
         <small className="text-gray-400">
           Community curated design content & discussion
