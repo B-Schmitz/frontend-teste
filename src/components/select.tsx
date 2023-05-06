@@ -1,27 +1,31 @@
 import React from "react";
 import SelectReact from "react-select";
 
-interface Option {
+export interface Option {
   value: string;
   label: string;
 }
 
 interface Props {
-  options: Map<any, string>;
-  selectedValue: any;
-  onChange: (selectedValue: any) => void;
+  options: Option[];
+  selectedValue: string;
+  onChange: (selectedValue: string) => void;
 }
 
 export function Select(p: Props) {
-  const options: Option[] = [];
-
-  p.options.forEach((v, k) => options.push({ value: k, label: v }));
+  const onChange = (option: Option | null) => {
+    if (option) {
+      p.onChange(option.value);
+    }
+  };
 
   return (
     <SelectReact
-      options={options}
-      value={p.selectedValue}
-      onChange={p.onChange}
+      className="w-full"
+      instanceId={"selectbox"}
+      options={p.options}
+      value={p.options.find((option) => option.value === p.selectedValue)}
+      onChange={onChange}
     />
   );
 }

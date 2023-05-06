@@ -43,7 +43,7 @@ export function Post({ post }: Props) {
           {post.meta.url}
         </h3>
         <h1>{post.meta.title}</h1>
-        <div className="flex gap-1 items-center">
+        <div className="flex gap-1 items-center flex-wrap">
           <small
             className={`px-2 py-1 truncate text-xs font-semibold text-white ${getCategoryColor(
               post.category
@@ -64,7 +64,9 @@ export function Post({ post }: Props) {
             {post.meta.author}
           </h3>
           <small className="truncate text-sm text-gray-500">
-            {fmt.from(time.tms2data(post.created_at))}
+            {post.created_at
+              ? fmt.from(time.tms2data(post?.created_at))
+              : "No date"}
           </small>
           <div className="text-gray-500 text-3xl">&middot;</div>
           <div className="flex items-center gap-1">

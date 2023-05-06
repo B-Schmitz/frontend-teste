@@ -6,7 +6,10 @@ import {
   Header,
   Icon,
   Post,
+  Select,
+  SmallButton,
 } from "@/components";
+import { Option } from "@/components/select";
 import { useSearch } from "@/context/search";
 import { api, API } from "@/services";
 import { useEffect, useState } from "react";
@@ -14,6 +17,7 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const [posts, setPosts] = useState<API.Post[]>([]);
   const [sort, setSort] = useState("upvotes");
+  const [sortAsc, setSortAsc] = useState(true);
   const { search } = useSearch();
 
   useEffect(() => {
@@ -49,22 +53,71 @@ export default function Home() {
     return filtered;
   }
 
+  const options: Option[] = [
+    { value: "upvotes", label: "Up Votes" },
+    { value: "comments", label: "Comments" },
+    { value: "meta.author", label: "Author" },
+  ];
+
+  function getProperty(obj: any, propertyPath: string): any {
+    const properties = propertyPath.split(".");
+    let value = obj;
+    for (const prop of properties) {
+      value = value[prop];
+    }
+    return value;
+  }
+
+  function comparePostsBy(property: string) {
+    return function (a: any, b: any): any {
+      const valueA = property.includes(".")
+        ? getProperty(a, property)
+        : a[property];
+      const valueB = property.includes(".")
+        ? getProperty(b, property)
+        : b[property];
+
+      // Comparação ascendente ou descendente com base em sortAsc
+      const compareResult = sortAsc ? 1 : -1;
+
+      if (valueA < valueB) {
+        return -1 * compareResult; // Multiplica por -1 para inverter a ordem
+      } else if (valueA > valueB) {
+        return 1 * compareResult;
+      } else {
+        return 0;
+      }
+    };
+  }
+
+  function handleToogleSortOrder() {
+    setSortAsc((state) => !state);
+  }
+
   return (
     <>
       <Content>
         <Header />
       </Content>
       <Divisor direction="horizontal" />
-      <Content></Content>
-      <main className="w-full overflow-x-hidden overflow-y-auto">
-        <Content>
-          <div className="flex flex-col gap-10 py-8">
-            {filteredPosts().map((post, i) => (
+      <Content>
+        <div className="flex gap-4 w-full">
+          <Select options={options} selectedValue={sort} onChange={setSort} />
+          <SmallButton
+            icon={sortAsc ? "fa-arrow-up-a-z" : "fa-arrow-up-z-a"}
+            onClick={handleToogleSortOrder}
+          ></SmallButton>
+        </div>
+      </Content>
+      <Content>
+        <div className="flex flex-col gap-10 py-8">
+          {filteredPosts()
+            .sort(comparePostsBy(sort))
+            .map((post, i) => (
               <Post key={i} post={post} />
             ))}
-          </div>
-        </Content>
-      </main>
+        </div>
+      </Content>
       <Content>
         <Button
           className="flex w-full gap-4 h-16 justify-center items-center text-orange-400 bg-gray-100 hover:bg-gray-200"

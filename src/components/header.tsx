@@ -11,7 +11,6 @@ import { useSearch } from "@/context/search";
 import { useEffect, useState } from "react";
 
 export function Header() {
-
   const { setValue } = useSearch();
   const [search, setSearch] = useState("");
 

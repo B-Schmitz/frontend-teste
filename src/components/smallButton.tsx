@@ -7,8 +7,11 @@ interface Props {
 
 export function SmallButton(p: Props) {
   return (
-    <Button className={"fa shrink-0 w-10 h-10 border rounded-sm  " + p.icon}>
-      {" "}
+    <Button
+      onClick={p.onClick}
+      className={"fa shrink-0 w-10 h-10 border rounded-sm  " + p.icon}
+    >
+      {""}
     </Button>
   );
 }

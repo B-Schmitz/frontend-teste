@@ -7,7 +7,11 @@ interface Props {
 }
 
 export function Button(p: Props) {
-  return <button className={p.className}>{p.children}</button>;
+  return (
+    <button className={p.className} onClick={p.onClick}>
+      {p.children}
+    </button>
+  );
 }
 
 export module Button {

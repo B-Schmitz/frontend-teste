@@ -13,9 +13,7 @@ dayjs.extend(utc);
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <div
-      className={poppins.className + " flex flex-col h-screen overflow-hidden"}
-    >
+    <div className={poppins.className}>
       <ContextSearch>
         <Component {...pageProps} />
       </ContextSearch>
