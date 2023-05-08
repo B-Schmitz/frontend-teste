@@ -35,7 +35,7 @@ export function Header() {
             <div className="w-4 h-4 bg-orange-400 rounded-sm text-white text-sm text-center absolute top-3 left-0">
               5
             </div>
-            <Avatar />
+            <Avatar src="https://cdn-icons-png.flaticon.com/512/4792/4792929.png" />
           </div>
         </div>
       </div>

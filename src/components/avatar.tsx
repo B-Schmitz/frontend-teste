@@ -1,13 +1,26 @@
 import Image from "next/image";
-export function Avatar() {
-  const img = "https://cdn-icons-png.flaticon.com/512/4792/4792929.png";
+
+interface Props {
+  src: string
+  alt?: string
+  size?: Avatar.Size
+}
+
+export function Avatar({ src, alt, size }: Props) {
   return (
     <Image
       className="bg-gray-100 rounded-sm"
-      src={img}
-      alt=""
-      width={40}
-      height={40}
+      src={src}
+      alt={alt || ""}
+      width={size || Avatar.Size.sm}
+      height={size || Avatar.Size.sm}
     />
   );
+}
+
+export module Avatar {
+  export const enum Size {
+    xs = 22,
+    sm = 40
+  }
 }

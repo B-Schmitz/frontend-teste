@@ -1,7 +1,7 @@
 import { API } from "@/services/api/types";
 import { Icon } from "./icon";
-import Image from "next/image";
 import { fmt, time } from "@/services";
+import { Avatar } from "./avatar";
 
 interface Props {
   post: API.Post;
@@ -51,15 +51,13 @@ export function Post({ post }: Props) {
           >
             {getCategoryName(post.category)}
           </small>
-          <div className="w-5 h-5 rounded-sm overflow-hidden">
-            <Image
-              width={32}
-              height={32}
-              className="object-cover w-full h-full"
+       
+            <Avatar
               src="https://cdn-icons-png.flaticon.com/512/4792/4792929.png"
               alt="Profile Image"
+              size={Avatar.Size.xs}
             />
-          </div>
+       
           <h3 className="truncate flex-nowrap text-sm font-medium text-orange-400 underline">
             {post.meta.author}
           </h3>
