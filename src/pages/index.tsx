@@ -105,19 +105,18 @@ useEffect(() => {
     setSortAsc((state) => !state);
   }
 
-  function renderPosts() {
-    return (
-      <div className="flex flex-col gap-10 py-8">
-        {
-          
-          ()
-          .sort(comparePostsBy(sort))
-          .map((post, i) => (
-            <Post key={i} post={post} />
-          ))}
-      </div>
-    );
-  }
+ function renderPosts() {
+  return (
+    <div className="flex flex-col gap-10 py-8">
+      {filteredPosts()
+        .sort(comparePostsBy(sort))
+        .map((post, i) => (
+          <Post key={i} post={post} />
+        ))}
+    </div>
+  );
+}
+
 
   return (
     <>
