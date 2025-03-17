@@ -29,12 +29,11 @@ export default function Home() {
   async function loadPosts() {
     setLoading(true);
     try {
-      
       const res = await api.posts_get();
       setPosts(res);
       setLoading(false);
-    } catch (e) => {
-      console.error(e.message);
+    } catch (e) {
+        console.error(e.message);
       }
   }
 
