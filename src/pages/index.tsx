@@ -28,9 +28,14 @@ export default function Home() {
 
   async function loadPosts() {
     setLoading(true);
-    const res = await api.posts_get();
-    setPosts(res);
-    setLoading(false);
+    try {
+      
+      const res = await api.posts_get();
+      setPosts(res);
+      setLoading(false);
+    } catch (e) => {
+      console.error(e.message);
+      }
   }
 
   function filteredPosts(): API.Post[] {
