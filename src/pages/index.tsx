@@ -22,19 +22,23 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const { search } = useSearch();
 
-  useEffect(() => {
-    loadPosts().catch();
-  }, []);
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      await loadPosts();
+    } catch (e: any) {
+      console.error(e.message);
+    }
+  };
+
+  fetchData();
+}, []);
 
   async function loadPosts() {
     setLoading(true);
-    try {
-      const res = await api.posts_get();
-      setPosts(res);
-      setLoading(false);
-    } catch (e: any) {
-        console.error(e.message);
-      }
+    const res = await api.posts_get();
+    setPosts(res);
+    setLoading(false);
   }
 
   function filteredPosts(): API.Post[] {
@@ -104,7 +108,9 @@ export default function Home() {
   function renderPosts() {
     return (
       <div className="flex flex-col gap-10 py-8">
-        {filteredPosts()
+        {
+          
+          ()
           .sort(comparePostsBy(sort))
           .map((post, i) => (
             <Post key={i} post={post} />
