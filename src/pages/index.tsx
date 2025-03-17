@@ -32,7 +32,7 @@ export default function Home() {
       const res = await api.posts_get();
       setPosts(res);
       setLoading(false);
-    } catch (e) {
+    } catch (e: any) {
         console.error(e.message);
       }
   }
