@@ -37,7 +37,7 @@ useEffect(() => {
   async function loadPosts() {
     setLoading(true);
     const res = await api.posts_get();
-    setPosts(res);
+    setPosts(res || []);
     setLoading(false);
   }
 
